@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:taskapp/Controller/profile_controller.dart';
 import 'package:taskapp/core/utils/app_strings.dart';
 import 'package:taskapp/core/utils/k_colors.dart';
 import 'package:taskapp/features/profileScreen/presentation/view/widgets/container_update_profile.dart';
@@ -14,33 +16,45 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController profileController = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context, AppStrings.myProfile, false),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // DetailsPreson(color: beigeColor),
-            EditDetails(),
-            SizedBox(height: 20),
-            CustomTextFormField(
-              LabelText: AppStrings.fullName,
-              hintText: AppStrings.enterYourFullName,
-            ),
-            CustomTextFormField(
-              LabelText: AppStrings.email,
-              hintText: AppStrings.enterYourEmail,
-            ),
-            CustomTextFormField(
-              LabelText: AppStrings.mobileNumber,
-              hintText: AppStrings.enterYourMobileNumber,
-            ),
-            DatePickerField(),
-            Gender(),
-            ContainerUpdateProfile()
-          ],
-        ),
-      ),
+      body: Obx(() {
+        if (profileController.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              // DetailsPreson(color: beigeColor),
+              EditDetails(),
+              SizedBox(height: 20),
+              CustomTextFormField(
+                LabelText: AppStrings.fullName,
+                hintText: AppStrings.enterYourFullName,
+                controller: profileController.fullNameController,
+              ),
+              CustomTextFormField(
+                LabelText: AppStrings.email,
+                hintText: AppStrings.enterYourEmail,
+                controller: profileController.emailController,
+              ),
+              CustomTextFormField(
+                LabelText: AppStrings.mobileNumber,
+                hintText: AppStrings.enterYourMobileNumber,
+                controller: profileController.mobileNumberController,
+              ),
+              DatePickerField(profileController: profileController),
+              Gender(profileController: profileController),
+              ContainerUpdateProfile(profileController: profileController),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:taskapp/controller/date_controller.dart';
+import 'package:taskapp/Controller/profile_controller.dart';
 import 'package:taskapp/core/utils/app_styles.dart';
 import 'package:taskapp/core/utils/k_colors.dart';
 
 class DatePickerField extends StatelessWidget {
-  const DatePickerField({super.key});
+  final ProfileController? profileController;
+
+  const DatePickerField({super.key, this.profileController});
 
   Future<void> _pickDate(
-      BuildContext context, DatePickerController controller) async {
+      BuildContext context, ProfileController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: controller.selectedDate.value ?? DateTime(2000, 1, 1),
+      initialDate: DateTime(2000, 1, 1),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
 
     if (picked != null) {
-      controller.setDate(picked);
+      final formattedDate = "${picked.day}/${picked.month}/${picked.year}";
+      controller.setDateOfBirth(formattedDate);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(DatePickerController());
+    final controller = profileController ?? Get.find<ProfileController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
@@ -35,19 +38,20 @@ class DatePickerField extends StatelessWidget {
             style: AppStyles.textSemiBold18(context).copyWith(fontSize: 16),
           ),
           SizedBox(height: 8),
-          Obx(() => TextFormField(
-                readOnly: true,
-                onTap: () => _pickDate(context, controller),
-                decoration: InputDecoration(
-                  hintText: controller.formattedDate,
-                  filled: true,
-                  fillColor: beigeColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              )),
+          TextFormField(
+            controller: controller.dateOfBirthController,
+            readOnly: true,
+            onTap: () => _pickDate(context, controller),
+            decoration: InputDecoration(
+              hintText: 'Select your date of birth',
+              filled: true,
+              fillColor: beigeColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
         ],
       ),
     );
