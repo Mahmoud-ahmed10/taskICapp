@@ -10,7 +10,7 @@ class OrderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchAndStoreOrders(); // جلب البيانات عند بدء الصفحة
+    fetchAndStoreOrders(); 
   }
 
   Future<void> fetchAndStoreOrders() async {
@@ -25,7 +25,7 @@ class OrderController extends GetxController {
 
       orders.assignAll(fetchedOrders);
     } catch (e) {
-      // لو فيه بيانات محفوظة محليًا
+      print(e.toString());
       final localData = box.read('local_orders') ?? [];
       orders.assignAll(
           List<OrderModel>.from(localData.map((e) => OrderModel.fromJson(e))));

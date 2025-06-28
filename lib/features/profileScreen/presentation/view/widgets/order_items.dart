@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taskapp/core/utils/k_colors.dart';
+import 'package:taskapp/features/profileScreen/data/model/order.dart';
 
 class OrderItemCard extends StatelessWidget {
-  const OrderItemCard({super.key});
+  final OrderModel order;
+
+  const OrderItemCard({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +17,9 @@ class OrderItemCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Order: Delivered",
+              Text("Order: ${order.orderStatus}",
                   style: TextStyle(color: Colors.grey[700])),
-              Text("May 15", style: TextStyle(color: Colors.grey[700])),
+              Text(order.orderDate??"",style: TextStyle(color: Colors.grey[700])),
             ],
           ),
           const SizedBox(height: 8),
@@ -28,11 +31,19 @@ class OrderItemCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  'assets/logo.jpg',
+                child: Image.network(
+                  order.itemImage??"",
                   width: 90,
                   height: 90,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/logo.jpg',
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -45,7 +56,7 @@ class OrderItemCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "Serenity Nightstand",
+                            order.itemName??"",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: terracottaColor,
@@ -76,11 +87,11 @@ class OrderItemCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("\$7.50",
+                        Text("\$${order.price}",
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("1x uds.",
+                        Text("${order.quantity}x uds.",
                             style: TextStyle(color: Colors.grey[700])),
-                        Text("Total: \$7.50",
+                        Text("Total: \$${order.total}",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),

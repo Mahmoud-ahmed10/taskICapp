@@ -1,39 +1,39 @@
 class OrderModel {
-  final String orderStatus;
-  final String orderDate;
-  final String itemName;
-  final String itemImage;
-  final double price;
-  final int quantity;
-  final double total;
+  final String? orderStatus;
+  final String? orderDate;
+  final String? itemName;
+  final String? itemImage;
+  final String? price;
+  final String? quantity;
+  final String? total;
 
   OrderModel({
-    required this.orderStatus,
-    required this.orderDate,
-    required this.itemName,
-    required this.itemImage,
-    required this.price,
-    required this.quantity,
-    required this.total,
+    this.orderStatus,
+    this.orderDate,
+    this.itemName,
+    this.itemImage,
+    this.price,
+    this.quantity,
+    this.total,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-        orderStatus: json['orderStatus'],
-        orderDate: json['orderDate'],
-        itemName: json['itemName'],
-        itemImage: json['itemImage'],
-        price: json['price'],
-        quantity: json['quantity'],
-        total: json['total'],
-      );
+    orderStatus: json['orderStatus']?.toString(),
+    orderDate: json['orderDate']?.toString(),
+    itemName: json['itemName']?.toString(),
+    itemImage: json['itemImage']?.toString(),
+    price: json['price']?.toString(),
+    quantity: json['quantity']?.toString(),
+    total: json['total']?.toString(),
+  );
 
   Map<String, dynamic> toJson() => {
-        "orderStatus": orderStatus,
-        "orderDate": orderDate,
-        "itemName": itemName,
-        "itemImage": itemImage,
-        "price": price,
-        "quantity": quantity,
-        "total": total,
-      };
+    "orderStatus": orderStatus,
+    "orderDate": orderDate,
+    "itemName": itemName,
+    "itemImage": itemImage,
+    "price": price,
+    "quantity": quantity,
+    "total": total,
+  };
 }
