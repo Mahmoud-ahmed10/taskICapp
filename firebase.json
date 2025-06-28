@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"taskicapp","appId":"1:77008563922:android:05b4349d6b7616f53d070b","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"taskicapp","configurations":{"android":"1:77008563922:android:05b4349d6b7616f53d070b","ios":"1:77008563922:ios:eafd4a1aa9b442ce3d070b"}}}}}}
